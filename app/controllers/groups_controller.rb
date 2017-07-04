@@ -11,6 +11,10 @@ before_action :authenticate_user!, only: [:new, :eidt, :update, :destroy, :creat
 
   def edit
     @group = Group.find(params[:id])
+
+    if current_user != @group.user
+      redirect_to root_path,alert: "you have no permission"
+    end
   end
 
   def new
@@ -20,7 +24,7 @@ before_action :authenticate_user!, only: [:new, :eidt, :update, :destroy, :creat
   def create
     @group = Group.new(group_params)
     @group.user = current_user
-    
+
     if @group.save
       redirect_to groups_path
     else
@@ -30,6 +34,11 @@ before_action :authenticate_user!, only: [:new, :eidt, :update, :destroy, :creat
 
   def update
     @group = Group.find(params[:id])
+
+if current_user != @group.user
+  redirect_to root_path, alert: "you have no permission"
+end
+
     if @group.update(group_params)
       redirect_to groups_path,notice: "update success!"
     else
@@ -39,6 +48,11 @@ before_action :authenticate_user!, only: [:new, :eidt, :update, :destroy, :creat
 
   def destroy
     @group = Group.find(params[:id])
+
+    if current_user != @group.user
+      redirect_to root_path, alert: "you have no permission"
+    end
+
     @group.destroy
     redirect_to groups_path, alert: "say bye!"
   end
