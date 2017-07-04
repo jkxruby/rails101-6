@@ -13,7 +13,7 @@ class GroupsController < ApplicationController
   end
 
   def new
-    @group = Group.find(params[:id])
+    @group = Group.new 
   end
 
   def create
