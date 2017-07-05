@@ -6,5 +6,4 @@ def index
 end
 
 
-
 end
